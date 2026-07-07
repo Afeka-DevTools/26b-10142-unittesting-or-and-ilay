@@ -1,3 +1,47 @@
+**אני:**
+אני צריך לכתוב בדיקות יחידה לפונקציה `isPrime` מתוך הקובץ `App.java` שלי. תוכל להראות לי איך לכתוב טסטים שמכסים נכון את הלוגיקה וגם מקרי קצה?
+
+**AI:**
+בטח. פונקציה שבודקת מספרים ראשוניים צריכה לוודא שמספרים כמו 2 ו-17 מחזירים אמת, אבל חשוב מאוד לבדוק גם מקרי קצה כמו מספרים שליליים, 0 ו-1 שאמורים להחזיר שקר. הנה דוגמה לטסט כזה באמצעות פונקציות Assert של JUnit:
+
+` ` `java
+    @Test
+    public void testIsPrime() {
+        assertTrue(App.isPrime(2));
+        assertTrue(App.isPrime(17));
+        assertFalse(App.isPrime(1)); // מקרה קצה (קטן מ-2)
+        assertFalse(App.isPrime(15));
+        assertFalse(App.isPrime(-5)); // מספר שלילי
+    }
+` ` `
+
+**אני:**
+הבנתי את העיקרון עם `assertTrue` ו-`assertFalse`. אבל לגבי הפונקציה `factorial` אצלי בקוד, היא זורקת שגיאת `IllegalArgumentException` אם המספר הוא שלילי. איך אני בודק ב-JUnit שהשגיאה הזו באמת נזרקת?
+
+**AI:**
+שאלה מצוינת. כדי לבדוק זריקת חריגים, JUnit מספקת את הפונקציה `assertThrows`. היא בודקת שהקוד בתוכה אכן קורס עם השגיאה המצופה. ככה זה ייראה עבור פונקציית העצרת שלך:
+
+` ` `java
+    @Test
+    public void testFactorial() {
+        assertEquals(120, App.factorial(5));
+        assertEquals(1, App.factorial(0)); // מקרה קצה - עצרת של 0 היא 1
+        
+        // בדיקת זריקת שגיאה על מספר שלילי
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            App.factorial(-1);
+        });
+        assertEquals("Negative number", exception.getMessage());
+    }
+` ` `
+
+**אני:**
+מעולה, זה סוגר לי את הפינה של הנתיבים השונים בפונקציות. אתה יכול בבקשה להשלים לי את מחלקת ה-`AppTest.java` עם שאר הבדיקות לפונקציות בקובץ (כמו `isPalindrome`, `fibonacciUpTo`, `average` וכו') תוך שימוש ב-Asserts שונים כדי שיהיה לי 100% כיסוי קוד?
+
+**AI:**
+בוודאי, הנה המחלקה המלאה שמשלימה את כל הבדיקות עבור הפונקציות שלך, מכסה את כל משפטי התנאי ומקרי הקצה:
+
+` ` `java
 package org.example;
 
 import org.junit.jupiter.api.Test;
@@ -98,3 +142,4 @@ public class AppTest {
         assertEquals("hello", App.mostCommonWord(text));
     }
 }
+` ` `
